@@ -5,16 +5,17 @@ public class RollinApp{
     private static final Random rand = new Random();
     private static final int handSize = 6;
     private static final int diceSize = 6;
+    private static final int NO_REPLACE = -1; 
     
     public static void main (String[] args){
         /** Code for running and Testing here*/
-        int numberOfTests = 1;
+        int numberOfTests = 10;
         int sumOfTurns = 0;
         
       
         for(int i = 0;i<numberOfTests;i++){
-            int[] myDice = {3,5,0,2,0,5};
-            //int[] myDice = createStartDice();
+            //int[] myDice = {3,5,0,2,0,5};
+            int[] myDice = createStartDice();
             MyRollin myRoll = new MyRollin(myDice);
             int numberOfTurns = 0;
             System.out.println(Arrays.toString(myRoll.getDice()));
@@ -25,7 +26,11 @@ public class RollinApp{
             while(!myRoll.isComplete()){
                 int newRoll = rollDice();
                 System.out.println(newRoll);
+                //index = myRoll.handleRollRandom(newRoll);
                 index = myRoll.handleRoll(newRoll);
+                if(index != NO_REPLACE){
+                    myRoll.dice[index] = newRoll;
+                }
                 System.out.println(Arrays.toString(myRoll.getDice()));
                 numberOfTurns++;
             }
