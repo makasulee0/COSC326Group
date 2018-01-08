@@ -9,10 +9,10 @@ public class RollinApp{
     
     public static void main (String[] args){
         /** Code for running and Testing here*/
-        int numberOfTests = 10;
+        int numberOfTests = 1000;
         int sumOfTurns = 0;
         
-      
+        /*Test Algorithm*/
         for(int i = 0;i<numberOfTests;i++){
             //int[] myDice = {3,5,0,2,0,5};
             int[] myDice = createStartDice();
@@ -40,7 +40,38 @@ public class RollinApp{
             System.out.println("Number of Turns : " +numberOfTurns);
         }
         double averageTurns = (double) sumOfTurns/ (double) numberOfTests;
+
+        for(int i = 0;i<numberOfTests;i++){
+            int[] myDice = createStartDice();
+            MyRollin myRoll = new MyRollin(myDice);
+            int numberOfTurns = 0;
+            //System.out.println(Arrays.toString(myRoll.getDice()));
+            //System.out.println(myRoll.isComplete());
+            int index=0;
+                          
+            //while(!myRoll.isComplete() && index != -1){
+            while(!myRoll.isComplete()){
+                int newRoll = rollDice();
+                System.out.println(newRoll);
+                //index = myRoll.handleRollRandom(newRoll);
+                index = myRoll.handleRollRandom(newRoll);
+                if(index != NO_REPLACE){
+                    myRoll.dice[index] = newRoll;
+                }
+                System.out.println(Arrays.toString(myRoll.getDice()));
+                numberOfTurns++;
+            }
+            sumOfTurns += numberOfTurns;
+            //System.out.println(Arrays.toString(myRoll.getDice()));
+            System.out.println(myRoll.isComplete());
+            System.out.println("Number of Turns : " + numberOfTurns);
+        }
+        double averageRandomTurns = (double) sumOfTurns/ (double) numberOfTests;
+
+
+        
         System.out.println("Average Turns: " + averageTurns);
+        System.out.println("Average Random Turns: " + averageRandomTurns);
         
 
         /* Calculates average of multiple runs*/
