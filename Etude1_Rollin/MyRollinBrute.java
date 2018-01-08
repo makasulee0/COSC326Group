@@ -11,7 +11,7 @@ public class MyRollinBrute extends Rollin {
     public static final int NO_REPLACE = -1; 
     public static Random r = new Random();
 
-    public MyRollin(int[] dice){
+    public MyRollinBrute(int[] dice){
         super(dice);
     }
 
@@ -33,8 +33,6 @@ public class MyRollinBrute extends Rollin {
      * or any int outside of 0 to 5 if no replacement is made.
      */
     public int handleRoll(int roll){
-        printDebug("Current dice: " + Arrays.toString(dice));
-
         // If we do not have two sets already...
         if (!isComplete()) {
             // Just replace a random die.
