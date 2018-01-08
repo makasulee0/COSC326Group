@@ -50,45 +50,36 @@ public class MyRollin extends Rollin {
 
             // Try to find a set and the indicies of that set and the indicies
             // that do not belong to that set.
-            int[] setIndicies = new int[3];
-            int[] nonSetIndicies = new int[3];
+            int[] set = new int[3];
+            int[] nonSet = new int[3];
             
-            // Try to find a set of 3 identical values and their indicies.
-            setIndicies = getIdenticalSetIndicies();
+            // Try to find a set and their indicies.
+            set = findSet();
             
             // If a set of indentical die values was found...
-            if (setIndicies != NOT_FOUND) {
+            if (set != NOT_FOUND) {
                 printDebug("Set of identical values found.");
             } 
             else {
-                // If not, try to find 3 consecutive values and their indicies.      
-                setIndicies = findConsecutiveSetIndicies();
-
-                // If a set of consecutive die values was found...
-                if (setIndicies != NOT_FOUND) {
-                    printDebug("Set of consecutive values found.");
-                }
                 // Otherwise if neither a set of identical die values or a set 
                 // of consecutive die values were found...
-                else {
-                    printDebug("No suitable candidates found. " + 
-                                "Replacing die at index " + replaceIndex);
-                    // Return the randomly generated die index.
-                    return replaceIndex;
-                }
+                printDebug("No suitable candidates found. " + 
+                           "Replacing die at index " + replaceIndex);
+                // Return the randomly generated die index.
+                return replaceIndex;
             } 
 
             // Get the non-set indicies.
-            nonSetIndicies = getNonSetIndicies(setIndicies);
+            nonSet = getNonSetIndicies(set);
 
-            printDebug("Found set indicies: " + Arrays.toString(setIndicies));
+            printDebug("Found set indicies: " + Arrays.toString(set));
             printDebug("Found non-set indicies: " + 
-                        Arrays.toString(nonSetIndicies));
+                        Arrays.toString(nonSet));
             
             // We can ignore the dice reffered to by setIndicies as they 
             // already form a set.
             // We should now try to make a set with the other 3 dice.
-            int suggestedReplaceIndex = suggestReplaceIndex(nonSetIndicies);
+            int suggestedReplaceIndex = suggestReplaceIndex(nonSet);
 
             printDebug(""); // Formatting.
 
@@ -112,113 +103,40 @@ public class MyRollin extends Rollin {
     }
 
     /**
-     * Count how many of each die value we have.
-     * @return The array of die value counts.
+     * Determine whether the current dice form a set and return the indicies
+     * for that set.
+     * @return set of indicies if the dice form a set, NOT_FOUND otherwise
      */
-    private final int[] getValueCounts() {
-        int[] valueCounts = { 0, 0, 0, 0, 0, 0};
-
-        for (int i = 0; i < dice.length; i++) {
-            valueCounts[dice[i] - 1]++;
-        }  
-
-        printDebug("Counts of values 1-6: " + Arrays.toString(valueCounts));
-
-        return valueCounts;
-    }
-
-    /**
-     * Given a set of results from getValueCounts(), find the die value that
-     * occurs 3+ times.
-     * @return The die value that occurs 3+ times, -1 if no die value occurs
-     * 3+ times. */
-    private final int getValueWithThree(int[] valueCounts) {
-        for (int i = 0; i < valueCounts.length; i++) {
-            if (valueCounts[i] >= 3) {
-                return i + 1;
+    public final int[] findSet() {
+        for (int[][] si : setIndices) {
+            if (isSet(si[0])) {
+                return si[0];
+            } else if (isSet(si[1])) {
+                return si[1];
             }
         }
-
-        return -1;
-    }
-
-    /**
-     * Finds the indicies of 3 consecutive die values.
-     * @return Array of the indicies of the dice that have consecutive values.
-     * NOT_FOUND if no set of consecutive values is found.
-     */
-     private final int[] findConsecutiveSetIndicies() {
-        for (int i = 0; i < dice.length - 2; i++) {
-            for (int j = i + 1; j < dice.length - 1; j++) {
-                for (int k = j + 1; k < dice.length; k++) {
-                    // If all three are different and largest minus smallest is 2 then it
-                    // is a set, otherwise not.
-                    int max = Math.max(dice[i], Math.max(dice[j], dice[k]));
-                    int min = Math.min(dice[i], Math.min(dice[j], dice[k]));
-
-                    if (max - min == 2) {
-                        return new int[] { i, j , k };
-                    }
-                }
-            }
-        }
-
+        
         return NOT_FOUND;
-     }
-
-    /**
-     * Finds the indicies of 3 indentical die values.
-     * @return Array of the indicies of the dice that have indentical values.
-     * NOT_FOUND if no set of indentical values is found.
-     */
-    private final int[] getIdenticalSetIndicies() {
-        // Start by trying to find a set of 3 identical values.
-        // Get a count of how many of each die value we have.
-        int[] valueCounts = getValueCounts();
-
-        // Check for 3+ of the same value.
-        int valueWithThree = getValueWithThree(valueCounts);
-
-        // If we have a set of 3 identical values within our dice...
-        if (valueWithThree != -1) {
-            printDebug("Set of indentical values found.");
-
-            // Find the index of the dice that match the value of the die 
-            // value that occurs 3+ times.
-            int j = 0; // Index of the value in indenticalSetIndicies to set.
-            int[] indenticalSetIndicies = new int[3];
-
-            for (int i = 0; i < dice.length; i++) {
-                // Find up to 3 matches and put them in indenticalSetIndicies.
-                if (dice[i] == valueWithThree && j < indenticalSetIndicies.length) {
-                    indenticalSetIndicies[j++] = i;
-                }
-            }
-
-            return indenticalSetIndicies;
-        }
-
-        return NOT_FOUND; 
     }
 
+
     /**
-     * Gets the indicies of the dice that do not belong the set that was found
-     * based on the indicies of the dice that are not part of a set.
-     * @param setIndicies The indicies of the set that was found.
-     * @return The indicies of the dice that are not in setIndicies */
-    private final int[] getNonSetIndicies(int[] setIndicies) {
+     * Gets the indicies of the dice that do not belong to the given set.
+     * @param set The indicies of the set that was found.
+     * @return The indicies of the dice that are not in set */
+    private final int[] getNonSetIndicies(int[] set) {
         int[] nonSetIndicies = new int[3];
 
         // Construct the nonSetIndicies array by adding the 
-        // indices that are not present in setIndicies
+        // indices that are not present in set
         int k = 0; // Index of the value in nonSetIndicies to set.
         boolean found;
 
         for (int i = 0; i < dice.length; i++) {
             found = false;
 
-            for (int j = 0; j < setIndicies.length; j++) {
-                if (i == setIndicies[j]) {
+            for (int j = 0; j < set.length; j++) {
+                if (i == set[j]) {
                     found = true;
                 }
             }
