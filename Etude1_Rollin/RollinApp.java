@@ -8,22 +8,49 @@ public class RollinApp{
     
     public static void main (String[] args){
         /** Code for running and Testing here*/
-        int[] myDice = createStartDice();
+        int numberOfTests = 5;
+        int sumOfTurns = 0;
+        //int[] myDice = createStartDice();
+        int[] myDice = {3,5,0,2,0,5};
         MyRollin myRoll = new MyRollin(myDice);
         int numberOfTurns = 0;
         int numberOfSwaps = 0;
         System.out.println(Arrays.toString(myRoll.getDice()));
-        System.out.println(myRoll.isComplete());
+        System.out.println(myRoll.isComplete())
+            
+        int index=0;
+        
+                
+        // while(!myRoll.isComplete() && index != -1){
         while(!myRoll.isComplete()){
             int newRoll = rollDice();
-            myRoll.handleRoll(newRoll);
+            System.out.println(newRoll);
+            index = myRoll.handleRoll(newRoll);
             System.out.println(Arrays.toString(myRoll.getDice()));
             numberOfTurns++;
         }
-        System.out.println(Arrays.toString(myRoll.getDice()));
+        //System.out.println(Arrays.toString(myRoll.getDice()));
         System.out.println(myRoll.isComplete());
         System.out.println("Number of Turns : " +numberOfTurns);
+
+        /* Calculates average of multiple runs*/
         
+        /*
+        for(int i = 0;i<numberOfTests;i++){
+            myRoll= new MyRollin(createStartDice());
+            numberOfTurns = 0;
+            while(!myRoll.isComplete()){
+                int newRoll = rollDice();
+                //System.out.println(newRoll);
+                myRoll.handleRoll(newRoll);
+                //System.out.println(Arrays.toString(myRoll.getDice()));
+                numberOfTurns++;
+            }
+            sumOfTurns +=numberOfTurns;
+        }
+        double averageTurns = (double) sumOfTurns/ (double) numberOfTests;
+        System.out.println("Average Turns: " + averageTurns);
+        */
     }
 
     public static int[] createStartDice(){
