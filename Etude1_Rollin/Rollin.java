@@ -6,18 +6,6 @@ package rollin;
  * @author Michael Albert
  */
 public abstract class Rollin {
-    /** Return value for handleRoll() if no dice are replaced. 
-    * Added for testing only. */
-    public static final int NO_REPLACE = -1; 
-
-    /**
-     * Replaces the die at the given index with the given value.
-     * Added for testing only.
-     * @param i The index of the die to replace.
-     * @param value The new value of the die. 
-     */
-    public abstract void replace(int i, int value);
-
     /*
     A convenience array used in determining whether or not six dice form
     two sets -- it represents all the possible partitions of the indices 0
