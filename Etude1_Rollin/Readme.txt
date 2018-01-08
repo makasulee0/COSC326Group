@@ -3,5 +3,5 @@ Just type make.
 
 To run the program use:
 
-java rollin.RollinApp
+java rollin.RollinApp <number of tests>
 

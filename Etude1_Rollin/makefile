@@ -1,2 +1,2 @@
-rollin: MyRollin.java Rollin.java RollinApp.java
+rollin: MyRollin.java MyRollinBrute.java Rollin.java RollinApp.java
 	javac *.java -d .
