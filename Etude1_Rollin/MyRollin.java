@@ -84,7 +84,7 @@ public class MyRollin extends Rollin {
             printDebug(""); // Formatting.
 
             // Return index of the die to replace.
-            return replaceIndex;
+            return (suggestedReplaceIndex != -1) ? suggestedReplaceIndex : replaceIndex;
         }
 
         // Return value indicating that no dice were replaced.

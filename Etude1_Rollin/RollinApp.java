@@ -18,13 +18,13 @@ public class RollinApp{
 
         // Testing statistics.
         int rolls = 0;
-        int minRolls = 0;
+        int minRolls = 999;
         int maxRolls = 0;
-        int avgRolls = 0;
+        double avgRolls = 0;
         long execTime = 0;
-        long minExecTime = 0;
+        long minExecTime = 999;
         long maxExecTime = 0;
-        long avgExecTime = 0;
+        double avgExecTime = 0;
         
         // Test variables
         int n; // How many rolls it took to get two sets.
@@ -97,13 +97,13 @@ public class RollinApp{
 
         // Testing statistics.
         int rolls = 0;
-        int minRolls = 0;
+        int minRolls = 999;
         int maxRolls = 0;
-        int avgRolls = 0;
+        double avgRolls = 0;
         long execTime = 0;
-        long minExecTime = 0;
+        long minExecTime = 999;
         long maxExecTime = 0;
-        long avgExecTime = 0;
+        double avgExecTime = 0;
         
         // Test variables
         int n; // How many rolls it took to get two sets.
