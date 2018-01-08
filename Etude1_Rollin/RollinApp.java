@@ -24,16 +24,16 @@ public class RollinApp{
         System.out.println("Initial dice: " + Arrays.toString(myRollin.getDice()));
 
         int i = 0; // How many rolls it took to get two sets.
-        int replace; // Which die to replace or value indicating no replacement.
+        int replaceIndex; // Index of the die to replace or value indicating no replacement.
         int roll; // The value of the die from the die roll.
 
         // Roll until we get two sets.
         while (!myRollin.isComplete() && i < 100) {
             roll = r.nextInt(6) + 1;
-            replace = myRollin.handleRoll(roll);
+            replaceIndex = myRollin.handleRoll(roll);
 
-            if (replace != MyRollin.NO_REPLACE) {
-                myRollin.replace(replace, roll);
+            if (replaceIndex != MyRollin.NO_REPLACE) {
+                myRollin.replace(replaceIndex, roll);
             }
 
             i++;
